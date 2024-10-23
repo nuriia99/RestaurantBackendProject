@@ -6,13 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Restaurants.Application.Validators
+namespace Restaurants.Application.Restaurants.Commands
 {
-    public class CreateRestaurantDtoValidator : AbstractValidator<CreateRestaurantDto>
+    public class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaurantCommand>
     {
-        private readonly List<string> validCategories = ["Spanish",  "Italian", "Japanese", "American", "Italian", "Indian"];
+        private readonly List<string> validCategories = ["Spanish", "Italian", "Japanese", "American", "Italian", "Indian"];
 
-        public CreateRestaurantDtoValidator() { 
+        public CreateRestaurantCommandValidator()
+        {
             RuleFor(x => x.Name).Length(3, 100);
             RuleFor(x => x.Category).NotEmpty().WithMessage("Insert a valid category.");
             RuleFor(x => x.ContactEmail).EmailAddress().WithMessage("Please provide a valid email address.");
@@ -22,7 +23,8 @@ namespace Restaurants.Application.Validators
 
             RuleFor(x => x.Category).Custom((value, context) =>
             {
-                if (!validCategories.Contains(value)){
+                if (!validCategories.Contains(value))
+                {
                     context.AddFailure("Category", "Invalid category. Please choose one from the valid ones.");
                 }
             });

@@ -17,6 +17,7 @@ namespace Restaurants.Infrastructure.Extensions
             {
                 options.UseSqlServer(configuration.GetConnectionString("RestaurantsDb"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.EnableSensitiveDataLogging();
             });
             services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
             services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();

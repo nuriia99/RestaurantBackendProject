@@ -16,14 +16,14 @@ namespace Restaurants.API.Controllers;
 public class RestaurantsController(IMediator mediatr) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll()
     {
         var restaurants = await mediatr.Send(new GetAllRestaurantsQuery());
         return Ok(restaurants);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] int id)
+    public async Task<ActionResult<RestaurantDto?>> GetById([FromRoute] int id)
     {
         var restaurant = await mediatr.Send(new GetRestaurantByIdQuery(id));
         if (restaurant is null)
@@ -40,6 +40,8 @@ public class RestaurantsController(IMediator mediatr) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
     {
         var isDeleted = await mediatr.Send(new DeleteRestaurantCommand(id));
@@ -50,6 +52,8 @@ public class RestaurantsController(IMediator mediatr) : ControllerBase
         return NotFound();
     }
     [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateRestaurant([FromBody] UpdateRestaurantCommand command)
     {
         var isUpdated = await mediatr.Send(command);

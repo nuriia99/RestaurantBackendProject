@@ -1,25 +1,31 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
+﻿using MediatR;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Dtos;
+using Restaurants.Application.Queries.GetAllRestaurants;
+using Restaurants.Application.Queries.GetRestaurantById;
 using Restaurants.Application.Restaurants;
+using Restaurants.Application.Restaurants.Commands;
+using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
+using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 
 namespace Restaurants.API.Controllers;
 
 [ApiController]
 [Route("api/restaurants")]
-public class RestaurantsController(IRestaurantsService restaurantsService) : ControllerBase
+public class RestaurantsController(IMediator mediatr) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var restaurants = await restaurantsService.GetAllRestaurants();
+        var restaurants = await mediatr.Send(new GetAllRestaurantsQuery());
         return Ok(restaurants);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        var restaurant = await restaurantsService.GetById(id);
+        var restaurant = await mediatr.Send(new GetRestaurantByIdQuery(id));
         if (restaurant is null)
             return NotFound();
 
@@ -27,9 +33,31 @@ public class RestaurantsController(IRestaurantsService restaurantsService) : Con
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRestaurant(CreateRestaurantDto request)
+    public async Task<IActionResult> CreateRestaurant(CreateRestaurantCommand command)
     {
-        int id = await restaurantsService.CreateRestaurant(request);
+        int id = await mediatr.Send(command);
         return CreatedAtAction(nameof(GetById), new { id }, null);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
+    {
+        var isDeleted = await mediatr.Send(new DeleteRestaurantCommand(id));
+
+        if (isDeleted)
+            return NoContent();
+
+        return NotFound();
+    }
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateRestaurant([FromBody] UpdateRestaurantCommand command)
+    {
+        var isUpdated = await mediatr.Send(command);
+
+        if (isUpdated)
+            return NoContent();
+
+        return NotFound();
+    }
+
 }

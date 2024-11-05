@@ -6,6 +6,7 @@ using Restaurants.Application.Dishes.Commands.DeleteDishes;
 using Restaurants.Application.Dishes.Queries.GetAllDishesForRestaurant;
 using Restaurants.Application.Dishes.Queries.GetDishByIdForRestaurant;
 using Restaurants.Application.Dtos;
+using Restaurants.Domain.Entities;
 
 namespace Restaurants.API.Controllers
 {
@@ -18,8 +19,8 @@ namespace Restaurants.API.Controllers
         {
             command.RestaurantId = restaurantId;
 
-            await mediatr.Send(command);
-            return Created();
+            var dishId = await mediatr.Send(command);
+            return CreatedAtAction(nameof(GetDishByIdForRestaurant), new { restaurantId, dishId }, null);
         }
 
         [HttpGet]

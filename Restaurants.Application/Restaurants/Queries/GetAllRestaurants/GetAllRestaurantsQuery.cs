@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Restaurants.Application.Queries.GetAllRestaurants
+namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
 {
     public class GetAllRestaurantsQuery : IRequest<IEnumerable<RestaurantDto>>
     {

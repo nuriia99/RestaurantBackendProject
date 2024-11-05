@@ -1,13 +1,11 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Dtos;
-using Restaurants.Application.Queries.GetAllRestaurants;
-using Restaurants.Application.Queries.GetRestaurantById;
-using Restaurants.Application.Restaurants;
 using Restaurants.Application.Restaurants.Commands;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
+using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
+using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 
 namespace Restaurants.API.Controllers;
 
@@ -44,10 +42,7 @@ public class RestaurantsController(IMediator mediatr) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteRestaurant([FromRoute] int id)
     {
-        var isDeleted = await mediatr.Send(new DeleteRestaurantCommand(id));
-
-        if (isDeleted)
-            return NoContent();
+        await mediatr.Send(new DeleteRestaurantCommand(id));
 
         return NotFound();
     }
@@ -56,10 +51,7 @@ public class RestaurantsController(IMediator mediatr) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateRestaurant([FromBody] UpdateRestaurantCommand command)
     {
-        var isUpdated = await mediatr.Send(command);
-
-        if (isUpdated)
-            return NoContent();
+        await mediatr.Send(command);
 
         return NotFound();
     }

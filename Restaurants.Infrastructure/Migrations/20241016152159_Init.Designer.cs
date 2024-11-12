@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurants.Infrastructure.Persistence;
 
+
 #nullable disable
 
 namespace Restaurants.Infrastructure.Migrations

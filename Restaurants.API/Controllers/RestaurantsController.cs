@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Dtos;
 using Restaurants.Application.Restaurants.Commands;
@@ -10,6 +11,7 @@ using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 namespace Restaurants.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/restaurants")]
 public class RestaurantsController(IMediator mediatr) : ControllerBase
 {

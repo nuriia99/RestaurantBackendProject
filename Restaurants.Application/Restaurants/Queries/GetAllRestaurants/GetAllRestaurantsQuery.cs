@@ -1,14 +1,11 @@
 ﻿using MediatR;
+using Restaurants.Application.Common;
 using Restaurants.Application.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Restaurants.Domain.Constants;
 
 namespace Restaurants.Application.Restaurants.Queries.GetAllRestaurants
 {
-    public class GetAllRestaurantsQuery : IRequest<IEnumerable<RestaurantDto>>
+    public class GetAllRestaurantsQuery : IRequest<PagedResult<RestaurantDto>>
     {
         public string? SearchPhrase { get; set; }
         public int PageNumber { get; set; }

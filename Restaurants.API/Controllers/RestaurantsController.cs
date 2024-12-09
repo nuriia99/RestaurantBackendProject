@@ -22,7 +22,7 @@ public class RestaurantsController(IMediator mediatr) : ControllerBase
     //[Authorize(Policy = PolicyNames.CreatedAtleast2Restaurants)]
     public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll([FromQuery] GetAllRestaurantsQuery query)
     {
-        var restaurants = await mediatr.Send(new GetAllRestaurantsQuery());
+        var restaurants = await mediatr.Send(query);
         return Ok(restaurants);
     }
 

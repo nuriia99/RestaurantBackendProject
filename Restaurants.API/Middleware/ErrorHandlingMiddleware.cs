@@ -18,6 +18,20 @@ public class ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger) : 
 
             logger.LogWarning(notFound.Message);
         }
+        catch (ForbidException forbid)
+        {
+            context.Response.StatusCode = 403;
+            await context.Response.WriteAsync(forbid.Message);
+
+            logger.LogWarning(forbid.Message);
+        }
+        catch (NotFoundUserContext notFoundUser)
+        {
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsync(notFoundUser.Message);
+
+            logger.LogWarning(notFoundUser.Message);
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, ex.Message);

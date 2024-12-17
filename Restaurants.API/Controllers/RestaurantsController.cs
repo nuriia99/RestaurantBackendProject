@@ -58,6 +58,7 @@ public class RestaurantsController(IMediator mediatr) : ControllerBase
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [Authorize(Roles = UserRoles.Owner)]
     public async Task<IActionResult> UpdateRestaurant([FromBody] UpdateRestaurantCommand command)
     {
         await mediatr.Send(command);

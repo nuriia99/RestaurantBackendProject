@@ -10,7 +10,7 @@ namespace Restaurants.Application.Restaurants.Commands
 {
     public class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaurantCommand>
     {
-        private readonly List<string> validCategories = ["Spanish", "Italian", "Japanese", "American", "Italian", "Indian"];
+        private readonly List<string> validCategories = ["Spanish", "Mexican", "Japanese", "American", "Italian", "Indian"];
 
         public CreateRestaurantCommandValidator()
         {

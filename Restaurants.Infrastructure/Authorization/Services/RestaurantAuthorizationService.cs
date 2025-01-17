@@ -37,6 +37,13 @@ public class RestaurantAuthorizationService(ILogger<RestaurantAuthorizationServi
             return true;
         }
 
+        if ((resourceOperation == ResourceOperation.Update && user.IsInRole(UserRoles.Admin))
+            || user.Id == restaurant.OwnerId)
+        {
+            logger.LogInformation("Restaurant owner - successful authorization");
+            return true;
+        }
+
         return false;
     }
 }

@@ -11,4 +11,5 @@ public interface IRestaurantsRepository
     Task<int> Create(Restaurant entity);
     Task Delete(Restaurant entity);
     Task Update(Restaurant entity);
+    Task SaveChanges();
 }

@@ -28,8 +28,8 @@ namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant
 
             if (!restaurantAuthorizationService.Authorize(restaurant, ResourceOperation.Update))
                 throw new ForbidException();
-            var a = mapper.Map<UpdateRestaurantCommand, Restaurant>(request);
-            await restaurantsRepository.Update(a);
+
+            await restaurantsRepository.Update(mapper.Map<UpdateRestaurantCommand, Restaurant>(request));
         }
     }
 }

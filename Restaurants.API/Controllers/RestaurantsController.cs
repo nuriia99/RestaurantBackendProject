@@ -5,6 +5,7 @@ using Restaurants.Application.Dtos;
 using Restaurants.Application.Restaurants.Commands;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
+using Restaurants.Application.Restaurants.Commands.UploadRestaurantLogo;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
 using Restaurants.Domain.Constants;
@@ -64,6 +65,22 @@ public class RestaurantsController(IMediator mediatr) : ControllerBase
         await mediatr.Send(command);
 
         return NotFound();
+    }
+
+    [HttpPost("{id}/logo")]
+    public async Task<IActionResult> UploadLogo([FromRoute] int id, IFormFile file)
+    {
+        using var stream = file.OpenReadStream();
+
+        var command = new UploadRestaurantLogoCommand()
+        {
+            RestaurantId = id,
+            FileName = $"{id}-{file.FileName}",
+            File = stream
+        };
+
+        await mediatr.Send(command);
+        return NoContent();
     }
 
 }
